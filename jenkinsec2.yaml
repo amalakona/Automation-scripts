@@ -1,0 +1,58 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Create My First EC2 instance using Cloudformation 
+Parameters: 
+  imageid: 
+    Default: *********
+    Description: my ec2 instance image
+    Type: String
+  InstanceType: 
+    Default: t2.micro
+    Description: my ec2 instance type
+    Type: String
+  keypair:
+    Default: ***********
+    Description: my keypair name
+    Type: String
+Resources:
+  WebAppInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref imageid 
+      InstanceType: !Ref InstanceType
+      KeyName: !Ref keypair
+      SecurityGroupIds:
+        - !Ref WebAppSecurityGroup
+      UserData:
+        Fn::Base64: |
+          #!/bin/bash
+          sudo yum update -y
+          sudo yum install wget
+          sudo amazon-linux-extras install java-openjdk11
+          sudo amazon-linux-extras install epel -y
+          sudo wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo
+          sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+          sudo yum install jenkins -y
+          sudo service jenkins start
+  WebAppSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: Jenkinssecuritygroup
+      GroupDescription: "Allow HTTP/HTTPS and SSH inbound and outbound traffic"
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0  
+        - IpProtocol: -1
+          CidrIp: 0.0.0.0/0
+            
+
+
