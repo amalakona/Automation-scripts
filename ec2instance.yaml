@@ -1,0 +1,22 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Create my first EC2 instance using cloudformation
+Parameters:
+  imageid: 
+    Default: ***********
+    Description: my ami
+    Type: String
+  InstanceType:
+    Default: t2.micro
+    Description: type of my instance
+    Type: String
+  keypair:
+    Default: *******
+    Description: Keypair instance
+    Type: String
+Resources:
+  EC2instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: ********** 
+      InstanceType: t2.micro
+      KeyName: ***** 
