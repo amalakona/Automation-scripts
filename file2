@@ -1,0 +1,32 @@
+---
+- name: create an ec2 instance
+  local_action:
+    module: ec2
+    key_name: "{{ mykey }}"
+    instance_type: "{{ instancetype }}"
+    image: "{{ amiid }}"
+    wait: yes
+          #  group: webserver
+    count: 1
+    vpc_subnet_id: "{{ subnetid }}"
+    region: "{{ usregion }}"
+    aws_access_key: "{{ accesskey }}"
+    aws_secret_key: "{{ secretkey }}"
+    assign_public_ip: yes
+  register: ec2_output
+
+- name: Get instance id
+  set_fact:
+    ec2id: "{{ ec2_output.instances | map(attribute='id') | list }}"
+
+- name: Add a tag
+  ec2_tag:
+    region: "{{ usregion }}"
+    resource: "{{ item }}"
+    aws_access_key: "{{ accesskey }}"
+    aws_secret_key: "{{ secretkey }}"
+    state: present
+    tags:
+      Name: ubervol
+      env: prod
+  with_items: "{{ ec2id }}"
