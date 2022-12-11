@@ -1,0 +1,22 @@
+---
+- name: create 3 ec2 instances
+  local_action:
+    module: ec2
+    key_name: "{{ mykey }}"
+    instance_type: "{{ instancetype }}"
+    image: "{{ amiid }}"
+    wait: yes
+    count: 3
+    vpc_subnet_id: "{{ subnetid }}"
+    region: "{{ usregion }}"
+    aws_access_key: "{{ accesskey }}"
+    aws_secret_key: "{{ secretkey }}"
+    assign_public_ip: yes
+  register: ec2_output
+- name: terminating the already launched ec2 instances
+  hosts: localhost
+  tasks:
+    - name: Terminate instances that were previously launched
+      ec2:
+        state: 'absent'
+        instance_ids: '{{ ec2.instance_ids }}'
