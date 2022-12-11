@@ -6,7 +6,6 @@
     instance_type: "{{ instancetype }}"
     image: "{{ amiid }}"
     wait: yes
-          #  group: webserver
     count: 1
     vpc_subnet_id: "{{ subnetid }}"
     region: "{{ usregion }}"

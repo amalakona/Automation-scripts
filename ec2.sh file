@@ -1,7 +1,0 @@
-aws --profile adminuser ec2 run-instances \
-      --image-id ami-******\
-     --instance-type t2.micro \
-     --count 1 \
-     --key-name ********* \
-     --security-group-ids sg-********
-ec2-terminate-instances $(curl -s http://169.254.169.254/latest/meta-data/instance-id)     
