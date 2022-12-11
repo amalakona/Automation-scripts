@@ -1,0 +1,37 @@
+---
+- name: creating ami for first ec2 instance
+  local_action: 
+    module: ec2_ami
+    key_name: "{{ mykey }}"
+    aws_access_key: "{{ accesskey }}"
+    aws_secret_key: "{{ secretkey }}"
+    instance_id: i-xxxxxxx
+    wait: yes
+    name: my instance1 ami
+    tags:
+      Name: ami1tag1
+      service: ami1service1
+- name: creating ami for second ec2 instance
+  local_action:
+    module: ec2_ami  
+    key_name: "{{ mykey }}"
+    aws_access_key: "{{ accesskey }}"
+    aws_secret_key: "{{ secretkey }}"
+    instance_id: i-xxxxxxx
+    wait: yes
+    name: my instance2 ami
+    tags:
+      Name: ami2tag2
+      service: ami2service2
+- name: creating ami for second ec2 instance
+  local_action:
+    module: ec2_ami  
+    key_name: "{{ mykey }}"
+    aws_access_key: "{{ accesskey }}"
+    aws_secret_key: "{{ secretkey }}"
+    instance_id: i-xxxxxxx
+    wait: yes
+    name: my instance3 ami
+    tags:
+      Name: ami3tag3
+      service: ami3service3      

@@ -1,0 +1,34 @@
+---
+- name: create 3 ec2 instances
+  local_action:
+    module: ec2
+    key_name: "{{ mykey }}"
+    instance_type: "{{ instancetype }}"
+    image: "{{ amiid }}"
+    wait: yes
+    count: 3
+    vpc_subnet_id: "{{ subnetid }}"
+    region: "{{ usregion }}"
+    aws_access_key: "{{ accesskey }}"
+    aws_secret_key: "{{ secretkey }}"
+    assign_public_ip: yes
+  register: ec2_output
+- name: Get volume id
+  set_fact:
+    volumeid: "{{ ec2_output.instances | map(attribute='volume_id') | list }}"
+
+- name: Add a tag
+  ec2_tag:
+    region: "{{ usregion }}"
+    resource: "{{ item }}"
+    aws_access_key: "{{ accesskey }}"
+    aws_secret_key: "{{ secretkey }}"
+    state: present
+    tags:
+      Name: "{{ item.Name }}"
+      env: "{{ item.env }}"
+  with_items: "{{ volumeid }}"
+  loop:
+  - { resource: 'volume1' , Name: 'vol1tag1' , env: 'vol1env1' }
+  - { resource: 'volume2' , Name: 'vol2tag2' , env: 'vol2env2' }
+  - { resource: 'volume3' , Name: 'vol3tag3' , env: 'vol3env3' }

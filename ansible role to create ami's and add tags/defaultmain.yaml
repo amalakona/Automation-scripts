@@ -1,0 +1,4 @@
+---
+- hosts: localhost
+  Default:
+    usregion: us-east-1

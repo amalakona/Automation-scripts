@@ -1,0 +1,24 @@
+---
+- name: tag created ec2 instances
+  local_action:
+    module: ec2
+    key_name: "{{ mykey }}"
+    instance_type: "{{ instancetype }}"
+    image: "{{ amiid }}"
+    wait: yes
+    count: 3
+    vpc_subnet_id: "{{ subnetid }}"
+    region: "{{ usregion }}"
+    aws_access_key: "{{ accesskey }}"
+    aws_secret_key: "{{ secretkey }}"
+    assign_public_ip: yes
+    name: Adding tags to instances
+    instance_tags:
+      Name: ec2tag
+      environment: qa
+    exact_count: 3
+    count_tag:
+      key: ec2tag*
+      value: ec2*
+  register: ec2_output
+    

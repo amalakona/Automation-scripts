@@ -1,0 +1,9 @@
+---
+- hosts: localhost
+  vars:
+    mykey: xxxxxxxx
+    instancetype: t2.micro
+    amiid: ami-xxxxxxx
+    accesskey: xxxxxxxx
+    secretkey: xxxxxxxx
+    subnetid: xxxxxxxx

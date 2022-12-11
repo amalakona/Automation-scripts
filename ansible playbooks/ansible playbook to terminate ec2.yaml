@@ -1,0 +1,28 @@
+---
+- hosts: localhost
+  vars:
+    - ansible_python_interpreter: /usr/local/bin/python
+  tasks:
+    - name: create an ec2 instance
+      local_action:
+        module: ec2
+        key_name: xxxxxxxxxx
+        instance_type: t2.micro
+        image: ami-********
+        wait: yes
+        count: 1
+        vpc_subnet_id: xxxxxxxxxx
+        region: us-east-1
+        aws_access_key: xxxxxxxxxxx 
+        aws_secret_key: xxxxxxxxxxx
+        assign_public_ip: yes
+        
+    - name: Terminate ec2 instance 
+      hosts: localhost
+      tasks:
+        - name: Terminate instance launched above
+          ec2: 
+           state: 'absent'
+           instance_ids: '{{ ec2.instance_ids }}'
+           aws_access_key: xxxxxxxxxx
+           aws_secret_key: xxxxxxxxxx
