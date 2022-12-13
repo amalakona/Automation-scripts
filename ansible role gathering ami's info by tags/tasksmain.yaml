@@ -12,10 +12,16 @@
     aws_secret_key: "{{ secretkey }}"
     assign_public_ip: yes
   register: ec2_output
+- ec2_ami:
+    image_id: "{{ instance.image_id }}" 
+    instance: "{{ item.id }}"
+  loop: "{{ ec2.instances }}"
+  register: ec2_ami 
+
 - name: Get image id
   set_fact:
     imageid: "{{ ec2_output.instances | map(attribute='image_id') | list }}"
-
+  
 - name: Adding tags to images
   ec2_tag:
     region: "{{ usregion }}"
@@ -29,17 +35,7 @@
   - { resource: 'image1' , tags: 'ami1tag1' }
   - { resource: 'image2' , tags: 'ami2tag2' }
   - { resource: 'image3' , tags: 'ami3tag3' } 
-- name: roles
-  hosts: localhost
-  gather_facts: true
-  become: yes
-  tasks:
-  - import_role:
-      name: "{{ role_name }}"
-      aws_access_key: "{{ accesskey }}"
-      aws_secret_key: "{{ secretkey }}"
-    when: tag_name == "{{ item.tagnames }}"
-    loop:
-    - { tagnames: 'ami1tag1' }
-    - { tagnames: 'ami2tag2' }
-    - { tagnames: 'ami3tag3' }   
+
+- ec2_ami_info: 
+    filters:
+      "tag:Name": "{{ item.tags }}"
