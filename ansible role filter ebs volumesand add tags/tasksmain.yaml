@@ -13,10 +13,19 @@
     aws_secret_key: "{{ secretkey }}"
     assign_public_ip: yes
   register: ec2_output
+- ec2_vol:
+    instance: "{{ item.id }}"
+  loop: "{{ ec2.instances }}"
+  register: ec2_vol
 - name: Get volume id
   set_fact:
     volumeid: "{{ ec2_output.instances | map(attribute='volume_id') | list }}"
 
+- name: filtering ebs volumes by tags
+  filters:
+    volume_id: "{{ item }}"
+    with_items: "{{ volumeid }}"
+    
 - name: Add a tag
   ec2_tag:
     region: "{{ usregion }}"
@@ -25,10 +34,12 @@
     aws_secret_key: "{{ secretkey }}"
     state: present
     tags:
-      Name: "{{ item.Name }}"
-      env: "{{ item.env }}"
+      key: "{{ item.key }}"
+      value: "{{ item.value }}"
   with_items: "{{ volumeid }}"
   loop:
-  - { resource: 'volume1' , Name: 'vol1tag1' , env: 'vol1env1' }
-  - { resource: 'volume2' , Name: 'vol2tag2' , env: 'vol2env2' }
-  - { resource: 'volume3' , Name: 'vol3tag3' , env: 'vol3env3' }
+  - { resource: 'volume1' , key: 'vol1tag1' , value: 'vol1env1' }
+  - { resource: 'volume2' , key: 'vol2tag2' , value: 'vol2env2' }
+  - { resource: 'volume3' , key: 'vol3tag3' , value: 'vol3env3' }
+ 
+     
