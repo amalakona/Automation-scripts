@@ -1,9 +1,7 @@
 ---
-- hosts: localhost
-  vars:
-    mykey: xxxxxxxx
-    instancetype: t2.micro
-    accesskey: xxxxxxxx
-    secretkey: xxxxxxxx
-    amiid: ami-xxxxxx
-    subnetid: xxxxxxxx
+mykey: xxxxxxxx
+instancetype: t2.micro
+accesskey: xxxxxxxx
+secretkey: xxxxxxxx
+amiid: ami-xxxxxx
+subnetid: xxxxxxxx
