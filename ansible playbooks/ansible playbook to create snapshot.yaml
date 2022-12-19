@@ -1,30 +1,12 @@
 ---
 - hosts: localhost
   vars:
-    - ansible_python_interpreter: /usr/local/bin/python
+   - ansible_python_interpreter: /usr/bin/python
   tasks:
-    - name: create an ec2 instance
-      local_action:
-        module: ec2
-        key_name: xxxxxxxxxx
-        instance_type: t2.micro
-        image: ami-********
-        wait: yes
-        count: 1
-        vpc_subnet_id: xxxxxxxxxx
+    - ec2_snapshot:
+        instance_id: i-xxxxxxx
         region: us-east-1
-        aws_access_key: xxxxxxxxxxx 
-        aws_secret_key: xxxxxxxxxxx
-        assign_public_ip: yes
-      register: ec2_output
-
-    - name: Get volume id
-      set_fact:
-        volumeid: "{{ volume_id | map(attribute='id') | list }}"
-    
-    - local_action: 
-        module: ec2_snapshot
-        volume_id: {{ "volumeid" }} 
-        last_snapshot_min_age: 60
-        aws_access_key: xxxxxxxxxxx
-        aws_secret_key: xxxxxxxxxxx
+        device_name: /dev/xvda
+        wait: yes
+        aws_access_key: xxxxxxxxxxxxxx
+        aws_secret_key: xxxxxxx

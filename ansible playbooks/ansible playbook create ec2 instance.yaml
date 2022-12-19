@@ -1,12 +1,11 @@
 ---
 - hosts: localhost
   vars:
-    - ansible_python_interpreter: /usr/local/bin/python
+    - ansible_python_interpreter: /usr/bin/python
   tasks:
     - name: create an ec2 instance
-      local_action:
-        module: ec2
-        key_name: xxxxxxx
+      ec2:
+        key_name: nov2022
         instance_type: t2.micro
         image: ami-********
         wait: yes

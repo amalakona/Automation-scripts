@@ -1,0 +1,15 @@
+---
+- hosts: localhost
+  vars:
+   - ansible_python_interpreter: /usr/bin/python
+  tasks:
+    - name: add tags to  ec2 instance
+      ec2_tag:
+       region: us-east-1
+       resource: i-xxxxxxxxxxxx
+       aws_access_key: xxxxxxxxxxx
+       aws_secret_key: xxxxxxxxxxx
+       state: present
+       tags:
+        Name: ubervol
+        env: prod

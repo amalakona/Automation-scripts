@@ -1,22 +1,17 @@
 ---
 - hosts: localhost
   vars:
-    - ansible_python_interpreter: /usr/local/bin/python
+   - ansible_python_interpreter: /usr/bin/python
   tasks:
-    - name: create a cloudformation stack
-      cloudformation:
-        stack_name: "ansible-cloudformation stack"
-        state: "present"
-        region: "us-east-1"
-        disable_rollback: true
-        template: "files/cloudformation name.yaml"
-        template_parameters:
-          KeyName: "xxxxxxx"
-          DiskType: "xxxxxxx"
-          InstanceType: "t2.micro"
-          ClusterSize: 3
-        tags:
-          Stack: "ansible-cloudformation"
-        aws_access_key: xxxxxxx
-        aws_secret_key: xxxxxxxxxx
-    
+   - name:  to create a cloudformation stack
+     cloudformation:
+       stack_name: "ansible-cloudformation"
+       state: "present"
+       region: "us-east-1"
+       aws_access_key: xxxxxxxxxx
+       aws_secret_key: xxxxxxxxxx
+       disable_rollback: true
+       template: "Desktop/ec2instance.yaml"
+       template_parameters:
+         KeyName: "xxxxxxxxxx"
+         InstanceType: "t2.micro"

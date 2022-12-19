@@ -2,7 +2,7 @@ AWSTemplateFormatVersion: 2010-09-09
 Description: Create my first EC2 instance using cloudformation
 Parameters:
   imageid: 
-    Default: ***********
+    Default: xxxxxxxxxxxx
     Description: my ami
     Type: String
   InstanceType:
@@ -10,13 +10,13 @@ Parameters:
     Description: type of my instance
     Type: String
   keypair:
-    Default: *******
+    Default: xxxxxxxx
     Description: Keypair instance
     Type: String
 Resources:
   EC2instance:
     Type: AWS::EC2::Instance
     Properties:
-      ImageId: ********** 
+      ImageId:  ami-xxxxxxxxxxx
       InstanceType: t2.micro
-      KeyName: ***** 
+      KeyName: xxxxxxxxx
