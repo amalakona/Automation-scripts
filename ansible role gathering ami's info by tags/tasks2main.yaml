@@ -1,0 +1,9 @@
+---
+# tasks file for gatheramis
+- name: gather information about all AMIs with tags
+  ec2_ami_info:
+    region: "{{ usregion }}"
+    aws_access_key: "{{ accesskey }}"
+    aws_secret_key: "{{ secretkey }}"
+    filters:
+      "tag:Name": test1,test2,test3

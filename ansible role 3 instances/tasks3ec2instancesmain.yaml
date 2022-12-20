@@ -1,14 +1,14 @@
 ---
-- name: create three ec2 instances
-  local_action:
-    module: ec2
-    key_name: "{{ mykey }}"
-    instance_type: "{{ instancetype }}"
-    image: "{{ amiid }}"
-    wait: yes
-    count: 3
-    vpc_subnet_id: "{{ subnetid }}"
-    region: "{{ usregion }}"
-    aws_access_key: "{{ accesskey }}"
-    aws_secret_key: "{{ secretkey }}"
-    assign_public_ip: yes
+# tasks file for create3ec2s
+- name: create an ec2 instance
+  ec2:
+   key_name: "{{ mykey }}"
+   instance_type: "{{ instancetype }}"
+   image: "{{ amiid }}"
+   wait: yes
+   count: 3
+   vpc_subnet_id: "{{ subnetid }}"
+   region: "{{ usregion }}"
+   aws_access_key: "{{ accesskey }}"
+   aws_secret_key: "{{ secretkey }}"
+   assign_public_ip: yes

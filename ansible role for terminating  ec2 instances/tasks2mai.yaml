@@ -1,0 +1,23 @@
+---
+# tasks file for terminateec2
+- name: terminate
+  ec2:
+    instance_ids: i-xxxxxxxxxxxxxxxx
+    region: us-east-1
+    aws_access_key: "{{ accesskey }}"
+    aws_secret_key: "{{ secretkey }}"
+    state: absent
+- name: terminate
+  ec2:
+    instance_ids: i-xxxxxxxxxxxx
+    region: us-east-1
+    aws_access_key: "{{ accesskey }}"
+    aws_secret_key: "{{ secretkey }}"
+    state: absent
+- name: terminate
+  ec2:
+    instance_ids: i-xxxxxxxxxx
+    region: us-east-1
+    aws_access_key: "{{ accesskey }}"
+    aws_secret_key: "{{ secretkey }}"
+    state: absent

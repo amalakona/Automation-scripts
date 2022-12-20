@@ -1,0 +1,33 @@
+---
+# tasks file for addtags
+- name: adding tags to instance1
+  ec2_tag:
+    region: "{{ usregion }}"
+    aws_access_key: "{{ accesskey }}"
+    aws_secret_key: "{{ secretkey }}"
+    resource: i-xxxxxxxx
+    state: present
+    tags:
+      Name: ubervol1
+      env: prod1
+
+- name: adding tags to instance2
+  ec2_tag:
+    region: "{{ usregion }}"
+    aws_access_key: "{{ accesskey }}"
+    aws_secret_key: "{{ secretkey }}"
+    resource: i-xxxxxx
+    state: present
+    tags:
+      Name: ubervol2
+      env: prod2
+- name: adding tags to instanceg
+  ec2_tag:
+     region: "{{ usregion }}"
+     aws_access_key: "{{ accesskey }}"
+     aws_secret_key: "{{ secretkey }}"
+     resource: i-xxxxxxxxx
+     state: present
+     tags:
+      Name: ubervol3
+      env: prod3

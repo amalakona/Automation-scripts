@@ -1,0 +1,32 @@
+---
+# tasks file for createami
+- ec2_ami:
+    instance_id: i-xxxxxxxxxxx
+    region: "{{ usregion }}"
+    aws_access_key: "{{ accesskey }}"
+    aws_secret_key: "{{ secretkey }}"
+    wait: yes
+    name: ec2ami1
+    tags:
+      Name: test1
+      Service: Service1
+- ec2_ami:
+    instance_id: i-xxxxxxxxxxxxxx
+    region: "{{ usregion }}"
+    aws_access_key: "{{ accesskey }}"
+    aws_secret_key: "{{ secretkey }}"
+    wait: yes
+    name: ec2ami2
+    tags:
+      Name: test2
+      Service: Service2
+- ec2_ami:
+    instance_id: i-xxxxxxxxxx
+    region: "{{ usregion }}"
+    aws_access_key: "{{ accesskey }}"
+    aws_secret_key: "{{ secretkey }}"
+    wait: yes
+    name: ec2ami3
+    tags:
+      Name: test3
+      Service: Service3
