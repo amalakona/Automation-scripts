@@ -1,0 +1,88 @@
+                               Docker Networking Commands
+
+
+Networking Basics:
+
+List all Docker network commands:
+
+Command Summary:
+
+Connect - Connect a container to a network
+
+create - Create a network
+
+Disconnect - Disconnect a container from a network
+
+inspect - Display detailed information on one or more networks
+
+ls - List networks
+
+prune - Remove all unused networks
+
+rm - Remove one or more networks
+
+Get the IP info for the container:
+Ifconfig
+
+To know network host :
+docker network -h
+
+List all Docker networks on the host:
+docker network ls
+
+List all docker networks on host with image id’s : 
+docker network ls --no-trunc
+
+Getting detailed info on a network:
+docker network inspect [NAME]
+
+Creating a network:
+docker network create [name]
+
+Deleting a network:
+docker network rm [NAME]
+
+Remove all unused networks:
+docker network prune
+
+Adding and Removing containers to a network
+
+
+Container : container is a runnable instance of an image
+
+To list all running Docker containers, enter the following into a terminal window:
+docker ps
+
+To list all containers, both running and stopped, add –a :
+docker ps –a
+
+To create a new container from an image and start it, use docker run:
+docker run ––name=newcontainername imagename
+
+Create a container with no network:
+docker container run -d --name containername -p imagename
+
+Create a new network:
+docker network create networkname
+
+Add the container to the bridge network:
+docker network connect networkname containername
+
+Inspect container to see the networks:
+docker container inspect containername
+
+Remove container from network:
+docker network disconnect networkname containername
+
+Inspect the network:
+docker network inspect networkname
+
+Prune all unused networks:
+docker network prune
+
+Create a network with an IP range:
+docker network create --subnet 10.1.0.0/16 --gateway 10.1.0.1 \
+--ip-range=10.1.4.0/24 --driver=bridge --label=host4network br04
+
+Inspect the br04 network:
+docker network inspect br04

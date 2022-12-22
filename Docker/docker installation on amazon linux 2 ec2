@@ -1,0 +1,22 @@
+1.update your ec2 instance
+  sudo yum update
+
+2.install docker on your instance
+  sudo yum install docker
+
+3.start docker on your instance
+  sudo service docker start
+
+4.enable docker on yor instance
+  sudo systemctl enable docker
+
+5.To know your docker status
+  sudo service docker status
+
+6.add your ec2 user to the docker group
+  sudo usermod -a -G docker ec2-user
+
+7.reboot your ec2 instance
+  sudo reboot
+
+8.after this step your ec2 will get disconnected you will need to reconnect it
