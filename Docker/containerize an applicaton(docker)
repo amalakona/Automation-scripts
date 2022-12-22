@@ -1,0 +1,44 @@
+11.install git on your ec2 instance
+   sudo yum install git -y
+
+1.Clone the getting-started repository using the following command:
+  git clone https://github.com/docker/getting-started.git
+
+2.View the contents of the cloned repository
+  ls
+3.changr directory to getting-started
+  cd getting-started
+  ls
+  cd app
+  ls
+  you should be in directory getting-started/app
+
+4.create a file named Dockerfile
+  touch Dockerfile
+
+5.edit your Dockerfile
+  vi Dockerfile
+
+6.paste this code in your Dockerfile
+# syntax=docker/dockerfile:1
+FROM node:18-alpine
+WORKDIR /app
+COPY . .
+RUN yarn install --production
+CMD ["node", "src/index.js"]
+EXPOSE 3000
+
+7.make shure you are in directory getting-started/app
+  cd getting-started/app
+
+8.build the container image
+  docker build -t getting-started .  
+
+9.start an app container
+  docker run -dp 3000:3000 getting-started
+
+10.After a few seconds, open your web browser to http://localhost:3000. You should see your app
+                                                             |      
+                                                        (ec2ip4publicaddress)
+11.Go ahead and add an item or two and see that it works as you expect. You can mark 
+items as complete and remove items. Your frontend is successfully storing items in the backend

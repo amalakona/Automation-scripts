@@ -1,0 +1,43 @@
+1.create an ec2 instance and ssh it into it using gitbash
+2.install git 
+   sudo yum install git -y
+
+3.install java-1.8*
+   sudo yum install java-1.8* -y
+
+4.download
+  git clone https://github.com/spring-guides/gs-maven.git
+
+5.change directory
+   cd gs-maven/initial
+
+6.change directory to ~
+  cd ~
+  install maven on your ec2 instance 
+  First, enter the following to add a repository with a Maven package
+  sudo wget https://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-maven.repo -O /etc/yum.repos.d/epel-apache-maven.repo
+
+7.Enter the following to set the version number for the packages.
+  sudo sed -i s/\$releasever/6/g /etc/yum.repos.d/epel-apache-maven.repo
+
+8.Then you can use yum to install Maven.
+  sudo yum install -y apache-maven
+
+9.check maven version
+  mvn -v              
+
+10.make shure you are at directory gs-maven/initial  
+
+11.To try out the build, issue the following at the command line
+   mvn compile
+
+12.make a package of your code 
+   mvn package
+
+13.To execute the JAR file run
+   java -jar target/gs-maven-0.1.0.jar
+
+14.If you’d like to install your 
+   project’s JAR file to that local repository, then you should invoke the install goal         
+    mvn install
+    
