@@ -1,0 +1,48 @@
+---
+- hosts: localhost
+  vars:
+    - ansible_python_interpreter: /usr/bin/python
+  tasks:
+    - name: create an ec2 instance
+      ec2:
+        key_name: nov2022
+        instance_type: t2.micro
+        image: ami-********
+        wait: yes
+        count: 1
+        vpc_subnet_id: xxxxxxx
+        region: us-east-1
+        aws_access_key: xxxxxxx
+        aws_secret_key: xxxxxxxxxx
+        assign_public_ip: yes
+    - name: install softwares on ec2 instance
+      become: true
+      become_user: root
+      dnf:
+        name:
+          - git
+          - httpd
+          - vim
+          - java
+        state: latest
+      register: ec2_output
+    - name: 
+        set_fact:
+          ec2id: "{{ ec2_output.instances | map(attribute='id') | list }}"  
+    - name: create an image for ec2
+      ec2_ami:
+        instance_id: "{{ item }}"
+        region: us-east-1
+        wait: yes
+        name: ec2-ami
+        aws_access_key: xxxxxxxxxxxxxx
+        aws_secret_key: xxxxxxxxxxxxxx
+      with_items: "{{ ec2id }}"
+    - name: terminate the ec2 instance
+      ec2:
+        region: us-east-1
+        state: 'absent'
+        instance_ids: "{{ item }}"
+        aws_access_key: xxxxxxxxxxxx
+        aws_secret_key: xxxxxxxxxxx
+      with_items: "{{ ec2id }}"     
