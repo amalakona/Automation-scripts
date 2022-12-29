@@ -18,7 +18,7 @@
   - name: enable httpd
     service:
      name: httpd
-     enable: yes
+     enabled: yes
   - name: copy file from source to destination
     copy:
       src: index.html

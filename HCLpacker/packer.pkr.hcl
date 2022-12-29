@@ -23,8 +23,6 @@ build {
     "source.amazon-ebs.secondimage"
   ]
   provisioner "ansible"{
-    playbook_file = "./ansible_playbook.yml"},
-    {
-    
+    playbook_file = "./ansible_playbook.yml"
     }
 }
