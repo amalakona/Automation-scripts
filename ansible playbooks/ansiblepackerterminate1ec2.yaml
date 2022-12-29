@@ -1,0 +1,44 @@
+---
+- hosts: localhost
+  vars:
+    - ansible_python_interpreter: /usr/bin/python/
+  tasks:
+    - name: create an ec2 instance
+      ec2:
+        key_name: xxxxxx
+        region: us-east-1
+        user_data: |
+          #!/bin/bash/
+          sudo yum install git -y
+          sudo yum install java-1.8* -y
+          sudo yum install httpd
+          sudo yum adduser user2
+        instance_type: t2.micro
+        image: xxxxxxxxxxxx
+        wait: yes
+        count: 1
+        vpc_subnet_id: subnet-xxxxxxxxx
+        assign_public_ip: yes
+      register: ec2_output
+    - name: get a time stamp
+      debug:
+        var: ansible_date_time
+    - name: get instance id
+      set_fact:
+        instanceid: "{{ ec2_output.instances | map(attribute='id') | list }}"
+    - name: create an ami
+      ec2_ami:
+       instance_id: "{{ item }}"
+       wait: yes
+       name: ansible-packer-instance1
+       tags:
+         Name: autopacker
+         service: packerservice
+         dateofcreation: "{{ ansible_date_time.iso8601 }}"
+      with_items: "{{ instanceid }}"
+    - name: terminate ec2 after ami creation
+      ec2:
+       state: 'absent'
+       region: us-east-2
+       instance_ids: "{{ item }}"
+      with_items: "{{ instanceid }}"
