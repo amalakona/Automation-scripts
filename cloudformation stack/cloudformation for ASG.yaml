@@ -1,0 +1,65 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: create an autoscaling group
+parameters: 
+  imageid:
+    Default: ami-0b5eea76982371e91
+    Description: ami imageid 
+    Type: String
+  instanceType:
+    Default: t2.micro 
+    Description: instance type
+    Type: string 
+  keypair: 
+    Default: nov2022
+    Description: key pair name 
+    Type: string
+Resources:
+  MyLaunchTemplate:
+    Type: AWS::EC2::LaunchTemplate
+    Properties:
+      LaunchTemplateName: template-1
+      LaunchTemplateData:
+        ImageId: !Ref imageid 
+        InstanceType: !Ref instanceType 
+        KeyName: !Ref keypair
+  myASG:
+    Type: AWS::AutoScaling::AutoScalingGroup
+    Properties: 
+      AutoScalingGroupName: ASG-1
+      LaunchTemplate:
+        LaunchTemplateId: !Ref MyLaunchTemplate
+        Version: !GetAtt MyLaunchTemplate.LatestVersionNumber
+      AvailabilityZones:
+        - us-east-1a
+        - us-east-1b
+        - us-east-1c
+      MinSize: '0'
+      MaxSize: '5'
+      DesiredCapacity: '1'
+      VPCZoneIdentifier: 
+        - subnet-0ea25e6ae5d5dc624
+        - subnet-0e19535bc1d3ed4a3
+        - subnet-0c3cd014c83e7827b
+        - subnet-06d45b6f254f82542
+      Tags:
+        - Key: Environment
+          Value: production
+          PropagateAtLaunch: true 
+  MyApplicationLoadBalancer:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Type: application 
+      IpAddressType: ipv4
+      Subnets:
+        - subnet-0ea25e6ae5d5dc624
+        - subnet-0e19535bc1d3ed4a3
+        - subnet-0c3cd014c83e7827b
+        - subnet-06d45b6f254f82542
+  TargetGroup:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+     Name: TG-1
+     VpcId: vpc-04939b8e346a8be9f
+     Port: 80
+     Protocol: HTTP
+     TargetType: instance   
