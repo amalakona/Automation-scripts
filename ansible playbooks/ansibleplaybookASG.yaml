@@ -1,0 +1,19 @@
+---
+- hosts: localhost
+  vars:
+    - ansible_python_interpreter: /usr/bin/python
+  tasks:
+    - name: create an ASG using cloudformation stack
+      cloudformation:
+        stack_name: "ansiblecf-1"
+        state: "present"
+        region: "us-east-1"
+        aws_access_key: xxxxxxxxxxxx
+        aws_secret_key: xxxxxxxxxxxx
+        disable_rollback: true
+        template: "/home/ec2-user/ASGtemplate.yml"
+        template_parameters:
+          KeyPair: "nov2022"
+          InstanceType: "t2.micro"
+        tags:
+          Stack: "ansible-cloudformation"
