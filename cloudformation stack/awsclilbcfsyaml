@@ -1,0 +1,16 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: create an autoscaling group
+Resources:
+  ApplicationLoadBalancer:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Name: awsclialb-1
+      Type: application
+      IpAddressType: ipv4
+      Subnets:
+        - subnet-0af24f47e4a29e378
+        - subnet-0e19535bc1d3ed4a3
+        - subnet-0c3cd014c83e7827b
+      Tags:
+       - Key: alb
+         Value: awsclialb 

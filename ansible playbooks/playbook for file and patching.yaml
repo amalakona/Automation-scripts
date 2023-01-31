@@ -1,0 +1,17 @@
+---
+- hosts: localhost 
+  vars: 
+    - ansible_python_interpreter: /usr/bin/python
+  tasks:
+    - name: create a file 
+      file: 
+        path: /ec2_user/home/
+        owner: root
+        group: root
+        mode: '777'
+    - name: patching your system excluding apache  
+      yum:
+        name: '*'
+        state: latest
+        exclude: httpd
+
