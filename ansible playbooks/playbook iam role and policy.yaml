@@ -1,0 +1,54 @@
+---
+- name: create IAM role and IAM policy
+  hosts: localhost
+  vars:
+    - ansible_python_interpreter: /usr/bin/python 
+  tasks: 
+    - name: create an IAM role 
+      iam_role:
+        aws_access_key: xxxxxxxxxxxx
+        aws_secret_key: xxxxxxxxxxxx
+        name: ansiblr-iam-role
+        assume_role_policy_document: |
+          {
+            "version": "2012-10-17"
+            "statement": [
+               {
+                 "Effect": "Allow"
+                 "Principle": {
+                    "service": "ec2.amazonaws.com"
+                    },
+                    "Action": "sts:AssumeRole"
+                }
+            ] 
+          }
+      register: role 
+    - name: create an IAM policy 
+      iam_policy:
+        aws_access_key: xxxxxxxxxxxx
+        aws_secret_key: xxxxxxxxxxxx 
+        name: ansible-iam-policy 
+        policy: |
+          {
+            "version": "2012-10-17"
+            "statement": [
+               { 
+                 "Effect": "Allow"
+                 "Action": "s3:ListBucket",
+                 "Resource": "arn:aws:s3:::*"
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": "s3:GetObject",
+                  "Resource": "arn:aws:s3:::{{ bucket_name }}/*"
+                }
+            ]
+          }
+      register: policy 
+    - name: Attatch policy to thr role 
+      iam_role_policy:
+        aws_access_key: xxxxxxxxxxxx
+        aws_secret_key: xxxxxxxxxxxx 
+        role_name: ansible-iam-role 
+        policy_name: ansible-iam-policy 
+           
