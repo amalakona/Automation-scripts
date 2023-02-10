@@ -1,0 +1,36 @@
+---
+- hosts: all 
+  become: root
+  name: copy files to destination
+  vars:
+    - ansible_python_interpreter: /usr/bin/python 
+  tasks: 
+    - name: copiying file from one instance to another using copy 
+      copy:
+        src: 
+        dest: 
+      tags: 
+        - simple_copy 
+
+---
+- hosts: all
+  become: root
+  name: copy files using shell module
+  vars:
+    - ansible_python_interpreter: /usr/bin/python
+  tasks:
+   - name: copy files from one instance to another using shell 
+     shell: scp user1@machine1:/path-of-file/file1 /home/user2/file1 
+
+---
+- hosts: all
+  become: root
+  name: copy files using fetch module
+  vars: 
+    - ansible_python_interpreter: /usr/bin/python
+  user: user1 
+  tasks:
+    - name: copy file from one instance to another using fetch 
+      fetch: 
+        src=/path-of-file/file1
+        dest=/path-of-file/file1 
